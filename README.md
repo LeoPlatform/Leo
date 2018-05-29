@@ -18,6 +18,8 @@ Browse to the bots/sampleload directory in your new project and run a test.
 1. `cd bots/sampleload`
 1. `npm test`
 
+---
+
 #### Install the Leo Bus
 ##### LEO Bus cloudformation links
 (by region)
