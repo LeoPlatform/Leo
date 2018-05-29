@@ -12,5 +12,11 @@
 1. Install the LEO CLI: `npm install leo-cli -g`
 1. Create a new project with the LEO CLI Quickstart: `leo-cli create quickstart <projectName>`
 
+### Step 3: Test your new project
+Browse to the bots/sampleload directory in your new project and run a test.
+1. `cd <projectName>`
+2. `cd bots/sampleload`
+3. `npm test`
+
 # Support
 Want to hire an expert, or need technical support? Reach out to the Leo team: https://leoinsights.com/contact
