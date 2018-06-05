@@ -14,7 +14,7 @@ In the following steps, make sure you have selected either “US West (Oregon)�
 ##### Create a “Federated Identity”
 1. In AWS, Go to Cognito
 1. Click on “Manage Identity Pools”
-1. If you already have an Identity pool, click on the name and jump to step 6.
+1. If you already have an Identity pool, click on the name and jump to step 7.
 1. If you don’t already have an identity, click “Create new Identity pool”.
 1. Give the pool a name. (e.g. Leo) and click “Create Pool”.
 1. On the next page, click “Allow”.
