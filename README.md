@@ -8,7 +8,33 @@
 
 ### Step 2: Install the LEO Platform
 
-1. [Install the LEO Bus](#install-the-leo-bus)
+##### Notes:
+In the following steps, make sure you have selected either “US West (Oregon)” or “US East (N. Virginia)” as your region in AWS. Those are the only two supported regions.
+
+##### Create a “Federated Identity”
+1. In AWS, Go to Cognito
+1. Click on “Manage Identity Pools”
+1. If you already have an Identity pool, click on the name and jump to step 6.
+1. If you don’t already have an identity, click “Create new Identity pool”.
+1. Give the pool a name. (e.g. Leo) and click “Create Pool”.
+1. On the next page, click “Allow”.
+1. Click on “Sample Code”.
+1. Copy on the Identity Pool ID to a text document. You’ll need this when creating LeoPlatform stack below.
+
+##### Install the Leo Platform stack
+1. Go to CloudFormation
+1. Click “Create Stack”
+1. Paste this cloudformation link (`https://s3-us-west-2.amazonaws.com/leo-cli-publishbucket-1rgojx1iw5yq9/quickstart/release/cloudformation-latest.json`) into the “Specify an Amazon S3 template URL” field and click “Next”.
+1. Specify a stack name (e.g. LeoPlatformDev, LeoPlatformStage) in the “Stack name” input field.
+1. Paste your Cognito ID from the “Create a Federated Identity” section above into the CognitoId input field, then click “Next”.
+1. On the Options page, Click “Next”.
+1. Select the checkmark that says: “I acknowledge that AWS CloudFormation might create IAM resources.”, then click “Create”.
+1. Done. It will take several (5-10) minutes for the stack to be created.
+
+You will get a confirmation that the stack has been uploaded, but it will take another 5-10 minutes to install.
+
+##### Create a “quickstart” project.
+In your command line:
 1. Install the LEO CLI: `npm install leo-cli -g`
 1. Create a new project with the LEO CLI Quickstart: `leo-cli create quickstart <projectName>`
 
@@ -19,25 +45,6 @@ Browse to the bots/sampleload directory in your new project and run a test.
 1. `npm test`
 
 ---
-
-#### Install the Leo Bus
-##### LEO Bus cloudformation links
-(by region)
- * us-west-2: https://s3-us-west-2.amazonaws.com/leo-cli-publishbucket-1rgojx1iw5yq9/leo-bus/2.0.1/cloudformation.json
- * us-east-1: https://s3.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/leo-bus/2.0.1/cloudformation.json
-
-##### Quick setup instructions
-1. Go to CloudFormation
-1. Click “Create Stack”
-1. Paste the cloudformation link for your selected region (above) into the “Specify an Amazon S3 template URL” field and click “Next”.
-1. Specify a Bus stack name (e.g. DevBus) and click “Next”.
-1. On the Options page, Click “Next”.
-1. Select the checkmark that says: “I acknowledge that AWS CloudFormation might create IAM resources.”, then click “Create”.
-1. Done. It will take several minutes for the stack to be created.
-
-##### Full instructions
-Full instructions and screenshots for setting up the LEO Bus can be found at:
-https://github.com/LeoPlatform/bus
 
 # Support
 Want to hire an expert, or need technical support? Reach out to the Leo team: https://leoinsights.com/contact
