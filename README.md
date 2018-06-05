@@ -33,12 +33,12 @@ In the following steps, make sure you have selected either “US West (Oregon)�
 
 You will get a confirmation that the stack has been uploaded, but it will take another 5-10 minutes to install.
 
-##### Create a “quickstart” project.
+### Step 3: Create a “quickstart” project
 In your command line:
 1. Install the LEO CLI: `npm install leo-cli -g`
 1. Create a new project with the LEO CLI Quickstart: `leo-cli create quickstart <projectName>`
 
-### Step 3: Test your new project
+### Step 4: Test your new project
 Browse to the bots/sampleload directory in your new project and run a test.
 1. `cd <projectName>`
 1. `cd bots/sampleload`
