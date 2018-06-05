@@ -31,8 +31,6 @@ In the following steps, make sure you have selected either “US West (Oregon)�
 1. Select the checkmark that says: “I acknowledge that AWS CloudFormation might create IAM resources.”, then click “Create”.
 1. Done. It will take several (5-10) minutes for the stack to be created.
 
-You will get a confirmation that the stack has been uploaded, but it will take another 5-10 minutes to install.
-
 ### Step 3: Create a “quickstart” project
 In your command line:
 1. Install the LEO CLI: `npm install leo-cli -g`
