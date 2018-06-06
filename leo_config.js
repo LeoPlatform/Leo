@@ -1,5 +1,4 @@
 'use strict';
-
 const leoaws = require("leo-aws");
 module.exports = {
 	/**defaults applied to every system**/
@@ -8,29 +7,22 @@ module.exports = {
 			return {
 				"us-east-1": {
 					leoaws: leoaws({
-						profile: 'leotest',
+						profile: this.profile,
 						region: 'us-east-1'
 					}),
-					public: false,
-					static: {
-						s3: "s3://leomicroservices-leos3bucket-10v1vi32gpjy1/leo_platform",
-						cloudfront: ""
-					}//,
-					// stack: this.env + "LeoPlatform"
+					public: true
 				},
 				"us-west-2": {
 					leoaws: leoaws({
-						profile: 'leotest',
+						profile: this.profile,
 						region: 'us-west-2'
 					}),
-					public: false,
-					static: {
-						s3: "s3://leomicroservices-leos3bucket-10v1vi32gpjy1/leo_platform",
-						cloudfront: ""
-					}//,
-					// stack: this.env + "LeoPlatform"
+					public: true
 				}
 			}
 		}
+	},
+	_local: {
+		profile: 'leo'
 	}
 };
