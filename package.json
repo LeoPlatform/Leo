@@ -1,0 +1,23 @@
+{
+	"name": "leo",
+	"version": "1.0.7",
+	"description": "",
+	"main": "",
+	"scripts": {},
+	"config": {
+		"leo": {
+			"type": "microservice",
+			"name": "Leo Platform",
+			"regions": [
+				"us-west-2",
+				"us-east-1"
+			]
+		}
+	},
+	"license": "ISC",
+	"dependencies": {
+		"leo-aws": ">1.0.0",
+		"leo-config": ">1.0.0"
+	},
+	"devDependencies": {}
+}

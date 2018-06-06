@@ -42,6 +42,12 @@ Browse to the bots/sampleload directory in your new project and run a test.
 1. `cd bots/sampleload`
 1. `npm test`
 
+### Step 5: Get the URL for Botmon
+1. In AWS, Go to API Gateway
+1. Click on the link for the botmon for your stack. It will be formatted like this: <stack_name>/Botmon-<random-chars>
+1. In the left-side navigation panel, click on “Dashboard”.
+1. The page that loads will have a link at the top. The link for Botmon will say: Invoke this API at: <url>
+
 ---
 
 # Support
