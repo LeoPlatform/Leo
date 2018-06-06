@@ -24,7 +24,7 @@ In the following steps, make sure you have selected either “US West (Oregon)�
 ##### Install the Leo Platform stack
 1. Go to CloudFormation
 1. Click “Create Stack”
-1. Paste this cloudformation link (`https://s3-us-west-2.amazonaws.com/leo-cli-publishbucket-1rgojx1iw5yq9/quickstart/release/cloudformation-latest.json`) into the “Specify an Amazon S3 template URL” field and click “Next”.
+1. Paste this cloudformation link (`https://s3.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/leo/cloudformation-latest.json`) into the “Specify an Amazon S3 template URL” field and click “Next”.
 1. Specify a stack name (e.g. LeoPlatformDev, LeoPlatformStage) in the “Stack name” input field.
 1. Paste your Cognito ID from the “Create a Federated Identity” section above into the CognitoId input field, then click “Next”.
 1. On the Options page, Click “Next”.
