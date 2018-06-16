@@ -1,5 +1,5 @@
 {
-	"name": "leo",
+	"name": "leo-staticAssets",
 	"version": "1.0.0",
 	"description": "",
 	"main": "",
@@ -10,13 +10,10 @@
 	"config": {
 		"leo": {
 			"type": "microservice",
-			"name": "Leo Platform"
+			"name": "Leo Static Assets"
 		}
 	},
 	"license": "ISC",
-	"dependencies": {
-		"leo-aws": ">1.0.0",
-		"leo-config": ">1.0.0"
-	},
+	"dependencies": {},
 	"devDependencies": {}
 }
