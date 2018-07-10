@@ -1,0 +1,19 @@
+{
+	"name": "leo-Cognito",
+	"version": "1.0.0",
+	"description": "",
+	"main": "",
+	"scripts": {
+		"deploy": "leo-cli publish .",
+		"deployLeo": "AWS_PROFILE=leo leo-cli publish ."
+	},
+	"config": {
+		"leo": {
+			"type": "microservice",
+			"name": "Leo Cognito"
+		}
+	},
+	"license": "ISC",
+	"dependencies": {},
+	"devDependencies": {}
+}

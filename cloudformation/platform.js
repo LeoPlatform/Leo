@@ -3,27 +3,32 @@ module.exports = {
 		RegionMap: {
 			"us-east-1": {
 				AuthTemplateUrl: "https://s3-us-east-1.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/auth/release/cloudformation-latest.json",
-				BusTemplateUrl: "https://s3-us-east-1.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/auth/release/cloudformation-latest.json",
-				BotmonTemplateUrl: "https://s3-us-east-1.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/auth/release/cloudformation-latest.json"
+				BusTemplateUrl: "https://s3-us-east-1.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/leo-bus/release/cloudformation-latest.json",
+				BotmonTemplateUrl: "https://s3-us-east-1.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/botmon/release/cloudformation-latest.json",
+				CognitoTemplateUrl: "https://s3.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/leo-Cognito/cloudformation-latest.json"
 			},
 			"us-west-2": {
 				AuthTemplateUrl: "https://s3-us-west-2.amazonaws.com/leo-cli-publishbucket-1rgojx1iw5yq9/auth/release/cloudformation-latest.json",
-				BusTemplateUrl: "https://s3-us-west-2.amazonaws.com/leo-cli-publishbucket-1rgojx1iw5yq9/auth/release/cloudformation-latest.json",
-				BotmonTemplateUrl: "https://s3-us-west-2.amazonaws.com/leo-cli-publishbucket-1rgojx1iw5yq9/auth/release/cloudformation-latest.json"
+				BusTemplateUrl: "https://s3-us-west-2.amazonaws.com/leo-cli-publishbucket-1rgojx1iw5yq9/leo-bus/release/cloudformation-latest.json",
+				BotmonTemplateUrl: "https://s3-us-west-2.amazonaws.com/leo-cli-publishbucket-1rgojx1iw5yq9/botmon/release/cloudformation-latest.json",
+				CognitoTemplateUrl: "https://s3-us-west-2.amazonaws.com/leo-cli-publishbucket-1rgojx1iw5yq9/leo-Cognito/cloudformation-latest.json"
 			}
 		}
 	},
 	Parameters: {
-		ParamCognitoId: {
+		InputCognitoId: {
 			Type: "String",
 			Description: "Cognito Pool Id used for request authentication. Leave Blank to have us create one"
 		}
 	},
 	Conditions: {
-		"createCognito": {
-			"Fn:Equals": [{
-				Ref: "Cognito"
-			}, "Create a cognito stack for me"]
+		createCognito: {
+			"Fn::Equals": [
+				{
+					"Ref": "InputCognitoId"
+				},
+				""
+			]
 		}
 	},
 	Resources: {
@@ -63,7 +68,7 @@ module.exports = {
 						"RegionMap", {
 							Ref: "AWS::Region"
 						},
-						"AuthTemplateUrl"
+						"CognitoTemplateUrl"
 					]
 				},
 				TimeoutInMinutes: "60"
@@ -85,9 +90,9 @@ module.exports = {
 					CognitoId: {
 						"Fn::If": [
 							"createCognito", {
-								Ref: "Cognito"
+								"Fn::GetAtt": "Cognito.Outputs.IdentityPoolId"
 							}, {
-								Ref: "ParamCognitoId"
+								Ref: "InputCognitoId"
 							}
 						]
 					},
@@ -107,7 +112,7 @@ module.exports = {
 					}
 				}
 			},
-			DependsOn: ["Auth", "Bus"]
+			DependsOn: ["Auth", "Bus", "Cognito"]
 		}
 	}
 };

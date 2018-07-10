@@ -1,24 +1,11 @@
 module.exports = {
 	Resources: {
-		Cognito: {
+		IdentityPool: {
 			"Type": "AWS::Cognito::IdentityPool",
 			"Properties": {
-				"IdentityPoolName": "Leo",
+				"IdentityPoolName": "LeoCognito",
 				"AllowUnauthenticatedIdentities": true,
-				"DeveloperProviderName": "leo",
-				"SupportedLoginProviders": {
-					String: String,
-					...
-				},
-				"CognitoIdentityProviders": [CognitoIdentityProvider, ...],
-				"SamlProviderARNs": [String, ...],
-				"OpenIdConnectProviderARNs": [String, ...],
-				"CognitoStreams": CognitoStreams,
-				"PushSync": PushSync,
-				"CognitoEvents": {
-					String: String,
-					...
-				}
+				"DeveloperProviderName": "leo"
 			}
 		},
 		"auth": {
@@ -34,7 +21,9 @@ module.exports = {
 						"Action": "sts:AssumeRoleWithWebIdentity",
 						"Condition": {
 							"StringEquals": {
-								"cognito-identity.amazonaws.com:aud": "us-east-1:____COGNITO_ID____"
+								"cognito-identity.amazonaws.com:aud": {
+									"Ref": "IdentityPool"
+								}
 							},
 							"ForAnyValue:StringLike": {
 								"cognito-identity.amazonaws.com:amr": "authenticated"
@@ -70,7 +59,7 @@ module.exports = {
 										":", {
 											"Ref": "AWS::AccountId"
 										},
-										":BOTMON/prod/*"
+										":*/Release/*"
 									]
 								]
 							}]
@@ -92,7 +81,9 @@ module.exports = {
 						"Action": "sts:AssumeRoleWithWebIdentity",
 						"Condition": {
 							"StringEquals": {
-								"cognito-identity.amazonaws.com:aud": "us-east-1:____COGNITO_ID____"
+								"cognito-identity.amazonaws.com:aud": {
+									"Ref": "IdentityPool"
+								}
 							},
 							"ForAnyValue:StringLike": {
 								"cognito-identity.amazonaws.com:amr": "unauthenticated"
@@ -128,13 +119,42 @@ module.exports = {
 										":", {
 											"Ref": "AWS::AccountId"
 										},
-										":BOTMON/prod/*"
+										":*/Release/*"
 									]
 								]
 							}]
 						}]
 					}
 				}]
+			}
+		},
+		"IdentityPoolRoleMappings": {
+			"Type": "AWS::Cognito::IdentityPoolRoleAttachment",
+			"Properties": {
+				"IdentityPoolId": {
+					"Ref": "IdentityPool"
+				},
+				"Roles": {
+					"authenticated": {
+						"Fn::GetAtt": "auth.Arn"
+					},
+					"unauthenticated": {
+						"Fn::GetAtt": "unauth.Arn"
+					}
+				}
+			}
+		}
+	},
+	"Outputs": {
+		"IdentityPoolId": {
+			"Description": "Cognito Identity Pool ID",
+			"Value": {
+				"Ref": "IdentityPool"
+			},
+			"Export": {
+				"Name": {
+					"Fn::Sub": "${AWS::StackName}-IdentityPool"
+				}
 			}
 		}
 	}
