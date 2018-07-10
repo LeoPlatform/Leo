@@ -12,6 +12,7 @@
 In the following steps, make sure you have selected either “US West (Oregon)” or “US East (N. Virginia)” as your region in AWS. Those are the only two supported regions.
 
 ##### Install the Leo Platform stack
+1. Make sure your selected region is one of: US West (Oregon) or US East (N. Virginia).
 1. Go to CloudFormation
 1. Click “Create Stack”
 1. Paste this cloudformation link (`https://s3.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/leo/cloudformation-latest.json`) into the “Specify an Amazon S3 template URL” field and click “Next”.
