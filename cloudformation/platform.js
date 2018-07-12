@@ -2,9 +2,9 @@ module.exports = {
 	Mappings: {
 		RegionMap: {
 			"us-east-1": {
-				AuthTemplateUrl: "https://s3-us-east-1.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/auth/release/cloudformation-latest.json",
-				BusTemplateUrl: "https://s3-us-east-1.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/leo-bus/release/cloudformation-latest.json",
-				BotmonTemplateUrl: "https://s3-us-east-1.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/botmon/release/cloudformation-latest.json",
+				AuthTemplateUrl: "https://s3.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/auth/release/cloudformation-latest.json",
+				BusTemplateUrl: "https://s3.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/leo-bus/release/cloudformation-latest.json",
+				BotmonTemplateUrl: "https://s3.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/botmon/release/cloudformation-latest.json",
 				CognitoTemplateUrl: "https://s3.amazonaws.com/leo-cli-publishbucket-166d6oumno1f5/leo-Cognito/cloudformation-latest.json"
 			},
 			"us-west-2": {
