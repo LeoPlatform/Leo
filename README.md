@@ -39,6 +39,10 @@ Browse to the bots/sampleload directory in your new project and run a test.
 1. In the left-side navigation panel, click on “Dashboard”.
 1. The page that loads will have a link at the top. The link for Botmon will say: Invoke this API at: <url>
 
+# Entities and Aggregations
+From a microservice, run: `leo-cli create aggregations`. 4 bots and a cloudformation will be created that run from the bots created in the quickstart above.
+Documentation for Entities and Aggregation bots can be found here: https://github.com/LeoPlatform/connectors/tree/master/entity-table
+
 ---
 
 # Support
