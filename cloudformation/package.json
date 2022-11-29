@@ -1,11 +1,11 @@
 {
 	"name": "leo-Platform",
-	"version": "1.0.0",
+	"version": "3.0.0",
 	"description": "",
 	"main": "",
 	"scripts": {
-		"deploy": "leo-cli publish .",
-		"deployLeo": "AWS_PROFILE=leo leo-cli publish ."
+		"deploy": "leo-cli publish . --save",
+		"deployLeo": "AWS_PROFILE=leo leo-cli publish . --save"
 	},
 	"config": {
 		"leo": {
