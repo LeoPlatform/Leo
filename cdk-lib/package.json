@@ -1,0 +1,25 @@
+{
+  "name": "leo-cdk-lib",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist/ && tsc && cp ../cloudformation.json ./dist/rstreams/",
+    "watch": "tsc -w",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.5.2",
+    "@types/node": "10.17.27",
+    "@types/prettier": "2.6.0",
+    "aws-cdk-lib": "^2.50.0",
+    "constructs": "^10.0.0",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4",
+    "typescript": "^4.8.3"
+  },
+  "peerDependencies": {
+    "aws-cdk-lib": "^2.50.0",
+    "constructs": "^10.0.0"
+  }
+}
