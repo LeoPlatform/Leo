@@ -19,7 +19,7 @@ export class PlatformStack extends Stack {
       baseParameters: {
         Environment: 'dev',
         InputCognitoId: '',
-        TrustedAWSPrinciples: ['arn:aws:iam::806521485557:role/dev-cup-dsco-integration','arn:aws:iam::806521485557:root'],
+        TrustedAWSPrinciples: ['arn:aws:iam::999999999999:role/dev-integration','arn:aws:iam::999999999999:root'],
         QueueReplicationDestinationLeoBotRoleARNs: [],
         QueueReplicationMapping: '[]',
       },
