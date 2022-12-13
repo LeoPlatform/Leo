@@ -10,9 +10,7 @@ export class LeoPlatform extends Construct {
 
     new CfnInclude(this, "Platform", {
       preserveLogicalIds: false,
-      templateFile: path.resolve(
-        "node_modules/leo-cdk-lib/lib/rstreams/cloudformation.json"
-      ),
+      templateFile: path.resolve("../cloudformation.json"),
       parameters: {
         ...props.baseParameters,
         ...props.parameterGroups.lambdaProps,
