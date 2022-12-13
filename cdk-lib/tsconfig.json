@@ -22,7 +22,7 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "outDir": "dist",
+    "outDir": "lib",
   },
   "exclude": [
     "node_modules",
