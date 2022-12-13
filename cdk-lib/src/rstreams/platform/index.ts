@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { CfnInclude } from "aws-cdk-lib/cloudformation-include";
 import { Construct, IConstruct } from "constructs";
-import { IRStreamsPlatformProps } from "../types";
+import { LeoPlatformProps } from "../types";
 import * as path from "path";
 
-export class RStreamsPlatform extends Construct {
-  constructor(scope: IConstruct, id: string, props: IRStreamsPlatformProps) {
+export class LeoPlatform extends Construct {
+  constructor(scope: IConstruct, id: string, props: LeoPlatformProps) {
     super(scope, id);
 
-    new CfnInclude(this, "RStreamsPlatform", {
+    new CfnInclude(this, "Platform", {
       preserveLogicalIds: false,
       templateFile: path.resolve(
         "node_modules/leo-cdk-lib/lib/rstreams/cloudformation.json"

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-export interface IRStreamsPlatformProps {
+export interface LeoPlatformProps {
     readonly baseParameters: BaseParameters,
-    readonly parameterGroups: IRStreamParameterGroups;
+    readonly parameterGroups: LeoParameterGroups;
 }
 
 export interface BaseParameters{
@@ -61,23 +61,23 @@ export interface BaseParameters{
       readonly KinesisShards?: number;
 }
 
-export interface IRStreamParameterGroups {
-    readonly lambdaProps: ILambdaProps;
+export interface LeoParameterGroups {
+    readonly lambdaProps: LambdaProps;
 
-    readonly leoStreamProps: ILeoStreamProps;
+    readonly leoStreamProps: LeoStreamProps;
 
-    readonly leoArchiveProps: ILeoArchiveProps
+    readonly leoArchiveProps: LeoArchiveProps
 
-    readonly leoEventProps: ILeoEventProps;
+    readonly leoEventProps: LeoEventProps;
 
-    readonly leoSettingsProps: ILeoSettingsProps;
+    readonly leoSettingsProps: LeoSettingsProps;
 
-    readonly leoCronProps: ILeoCronProps;
+    readonly leoCronProps: LeoCronProps;
 
-    readonly leoSystemProps: ILeoSystemProps;
+    readonly leoSystemProps: LeoSystemProps;
 }
 
-export interface ILambdaProps {
+export interface LambdaProps {
     readonly KinesisStreamProcessorMemory?: number;
     readonly FirehoseStreamProcessorMemory?: number;
     readonly CronProcessorMemory?: number;
@@ -85,7 +85,7 @@ export interface ILambdaProps {
     readonly LeoMonitorMemory?: number;
 }
 
-export interface ILeoStreamProps {
+export interface LeoStreamProps {
     readonly LeoStreamBillingMode?: BillingModes;
     readonly LeoStreamMinReadCapacity?: number;
     readonly LeoStreamMaxReadCapacity?: number;
@@ -93,7 +93,7 @@ export interface ILeoStreamProps {
     readonly LeoStreamMaxWriteCapacity?: number;
 }
 
-export interface ILeoArchiveProps {
+export interface LeoArchiveProps {
     readonly LeoArchiveBillingMode?: number;
     readonly LeoArchiveMinReadCapacity?: number;
     readonly LeoArchiveMaxReadCapacity?: number;
@@ -102,7 +102,7 @@ export interface ILeoArchiveProps {
 
 }
 
-export interface ILeoEventProps {
+export interface LeoEventProps {
     readonly LeoEventBillingMode?: BillingModes;
     readonly LeoEventMinReadCapacity?: number;
     readonly LeoEventMaxReadCapacity?: number;
@@ -111,7 +111,7 @@ export interface ILeoEventProps {
 
 }
 
-export interface ILeoSettingsProps {
+export interface LeoSettingsProps {
     readonly LeoSettingsBillingMode?: BillingModes;
     readonly LeoSettingsMinReadCapacity?: number;
     readonly LeoSettingsMaxReadCapacity?: number;
@@ -120,7 +120,7 @@ export interface ILeoSettingsProps {
 
 }
 
-export interface ILeoCronProps {
+export interface LeoCronProps {
     readonly LeoCronBillingMode?: BillingModes;
     readonly LeoCronMinReadCapacity?: number;
     readonly LeoCronMaxReadCapacity?: number;
@@ -129,7 +129,7 @@ export interface ILeoCronProps {
 
 }
 
-export interface ILeoSystemProps {
+export interface LeoSystemProps {
     readonly LeoSystemBillingMode?: BillingModes;
     readonly LeoSystemMinReadCapacity?: number;
     readonly LeoSystemMaxReadCapacity?: number;
