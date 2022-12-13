@@ -1,5 +1,6 @@
 import * as cdk from "aws-cdk-lib";
-import * as rstreams from "../src";
+import * as leoPlatform from "../src";
+import * as path from "path";
 
 import { Match, Template } from "aws-cdk-lib/assertions";
 import { Construct } from "constructs";
@@ -12,7 +13,8 @@ export class MyLeoStack extends cdk.Stack {
 
     const TrustedAWSPrinciples = [randomString(), randomString()];
 
-    const platform = new rstreams.LeoPlatform(this, "MyLeoStack", {
+    const platform = new leoPlatform.LeoPlatform(this, "MyLeoStack", {
+      templateFile: "../cloudformation.json",
       baseParameters: {
         Environment: "dev",
         InputCognitoId: "",
@@ -33,7 +35,7 @@ export class MyLeoStack extends cdk.Stack {
   }
 }
 
-test("can create rstreams stack", () => {
+test("can create LeoPlatform stack", () => {
   const app = new cdk.App();
 
   const stack = new MyLeoStack(app, "MyLeoStack");

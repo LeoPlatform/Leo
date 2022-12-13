@@ -8,9 +8,14 @@ export class LeoPlatform extends Construct {
   constructor(scope: IConstruct, id: string, props: LeoPlatformProps) {
     super(scope, id);
 
+    const templateFile = path.resolve(
+      props.templateFile ??
+        "node_modules/leo-cdk-lib/lib/leo/platform/cloudformation.json"
+    );
+
     new CfnInclude(this, "Platform", {
       preserveLogicalIds: false,
-      templateFile: path.resolve("../cloudformation.json"),
+      templateFile,
       parameters: {
         ...props.baseParameters,
         ...props.parameterGroups.lambdaProps,

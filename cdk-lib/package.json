@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "rm -rf lib/ && tsc && cp ../cloudformation.json ./lib/",
+    "build": "rm -rf lib/ && tsc && cp ../cloudformation.json ./lib/leo/platform",
     "watch": "tsc -w",
     "test": "jest"
   },
