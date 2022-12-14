@@ -5,14 +5,11 @@ export interface LeoPlatformProps {
   readonly parameterGroups: LeoParameterGroups;
 
   /**
-   * templateFile
-   *
-   * @string
-   *
    * You can use your own template if you need to overwrite some
    * properties of this version.
    *
    * **note:** Params and nested options must be compatible
+   * @default "node_modules/leo-cdk-lib/lib/leo/platform/cloudformation.json"
    */
   readonly templateFile?: string;
 }
@@ -25,7 +22,7 @@ export interface BaseParameters {
   readonly Environment?: string;
 
   /**
-   * Cognito Pool Id used for request authentication. Leave Blank to have us create one
+   * Cognito Pool Id used for request authentication. Leave blank to have us create one
    */
   readonly InputCognitoId: string;
 
