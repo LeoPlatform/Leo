@@ -6,15 +6,19 @@
   "scripts": {
     "build": "rm -rf lib/ && tsc && cp ../cloudformation.json ./lib/leo/platform",
     "watch": "tsc -w",
-    "test": "jest"
+    "test": "jest",
+    "lint": "npx eslint ."
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
     "@types/node": "10.17.27",
     "@types/prettier": "2.6.0",
     "@types/random-string": "^0.0.28",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
     "aws-cdk-lib": "^2.50.0",
     "constructs": "^10.0.0",
+    "eslint": "^8.29.0",
     "jest": "^27.5.1",
     "random-string": "^0.2.0",
     "ts-jest": "^27.1.4",

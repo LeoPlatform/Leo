@@ -1,10 +1,10 @@
 import * as cdk from "aws-cdk-lib";
 import * as leoPlatform from "../src";
-import * as path from "path";
 
-import { Match, Template } from "aws-cdk-lib/assertions";
+import { Template } from "aws-cdk-lib/assertions";
 import { Construct } from "constructs";
 
+/* eslint-disable-next-line */
 const randomString = require("random-string");
 
 export class MyLeoStack extends cdk.Stack {
@@ -13,7 +13,7 @@ export class MyLeoStack extends cdk.Stack {
 
     const TrustedAWSPrinciples = [randomString(), randomString()];
 
-    const platform = new leoPlatform.LeoPlatform(this, "MyLeoStack", {
+    new leoPlatform.LeoPlatform(this, "MyLeoStack", {
       templateFile: "../cloudformation.json",
       baseParameters: {
         Environment: "dev",
@@ -41,7 +41,6 @@ test("can create LeoPlatform stack", () => {
   const stack = new MyLeoStack(app, "MyLeoStack");
 
   const template = Template.fromStack(stack);
-  const principles = template.findParameters("TrustedAWSPrinciples");
 
   // console.log({
   //   template: template.toJSON(),
