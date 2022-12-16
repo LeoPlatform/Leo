@@ -1,1 +1,2 @@
-export * from "./leo";
+export * from './platform';
+export * from './types';
