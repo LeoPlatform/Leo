@@ -10,7 +10,7 @@ export class LeoPlatform extends Construct {
 
     const templateFile = path.resolve(
       props.templateFile ??
-        "node_modules/leo-cdk-lib/lib/leo/platform/cloudformation.json"
+        "node_modules/leo-cdk-lib/lib/platform/cloudformation.json"
     );
 
     new CfnInclude(this, "Platform", {

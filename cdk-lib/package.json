@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "rm -rf lib/ && tsc && cp ../cloudformation.json ./lib/leo/platform",
+    "build": "rm -rf lib/ && tsc && cp ../cloudformation.json ./lib/platform",
     "watch": "tsc -w",
     "test": "jest",
     "lint": "npx eslint ."
@@ -16,8 +16,8 @@
     "@types/random-string": "^0.0.28",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
-    "aws-cdk-lib": "^2.50.0",
-    "constructs": "^10.0.0",
+    "aws-cdk-lib": "^2.55.1",
+    "constructs": "^10.1.191",
     "eslint": "^8.29.0",
     "jest": "^27.5.1",
     "random-string": "^0.2.0",
