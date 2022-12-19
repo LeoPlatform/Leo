@@ -1,31 +1,33 @@
 import { Construct, IConstruct } from "constructs";
 import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { NodejsFunction, NodejsFunctionProps } from "aws-cdk-lib/aws-lambda-nodejs";
-import { BotProps, BotType, NodeBotProps, RegisterBotProps } from "../types";
-import { registerBots } from "../register";
+import { Bot, BotProps, BotType, LambdaBotProps, RegisterBotProps } from "../types";
 import { DockerImageFunction, DockerImageFunctionProps } from "aws-cdk-lib/aws-lambda";
+import { CustomResource, Fn } from "aws-cdk-lib";
+import { ManagedPolicy } from "aws-cdk-lib/aws-iam";
 
 
 export class LambdaBot extends Construct {
-    constructor(scope: IConstruct, id: string, props: NodeBotProps) {
+    public bots: Bot[];
+
+    constructor(scope: IConstruct, id: string, props: LambdaBotProps) {
         super(scope, id);
 
         const busStack = StringParameter.valueForStringParameter(
-            this, props.bus);
+            this, props.busSsmId);
 
         const registerBotProps: RegisterBotProps[] = [];
 
         props.botProps.forEach((botProp: BotProps) => {
             const environment = {
-                RSTREAMS_CONFIG: JSON.stringify(rstreamsConfigEnvironments(busStack))
+                RSTREAMS_CONFIG: JSON.stringify(this.getEnvironmentVariables(busStack))
             }
             let bot: NodejsFunction | DockerImageFunction;
-            if (!botProp.functionProps || 'entry' in botProp.functionProps ) {
+            if (!botProp.functionProps || "entry" in botProp.functionProps) {
                 bot = new NodejsFunction(this, `${botProp.name}`, {
                     ...botProp.functionProps as NodejsFunctionProps,
                     environment,
                 });
-                
             } else {
                 bot = new DockerImageFunction(this, `${botProp.name}`, {
                     ...botProp.functionProps as DockerImageFunctionProps,
@@ -33,40 +35,58 @@ export class LambdaBot extends Construct {
                 });
             }
             if (bot) {
-                registerBotProps.push({
+                const botProps = {
                     settings: botProp.settings,
                     name: botProp.name,
                     lambdaName: bot.functionName,
                     type: BotType.CRON,
                     id: bot.functionName,
                     time: botProp.time
-                })
+                };
+                registerBotProps.push(botProps);
+                bot.role?.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("AWSLambdaBasicExecutionRole"));
+                bot.role?.addManagedPolicy(ManagedPolicy.fromManagedPolicyArn(this, "BusPolicy", Fn.importValue(`${busStack}-Policy`)));
+                this.bots.push({ function: bot, registerBotProps: botProps })
             } else {
-                throw new Error(`Unable to register bot ${botProp.name}. The entry variable should point to a file or image.`);
+                throw new Error(`Unable to register bot ${botProp.name}. The \`code\` property should point to a JS/TS file or contain a docker image.`);
             }
 
         });
-        // TODO: Maybe add BotRole??
-        registerBots(this, busStack, registerBotProps)
+        this.registerBots(this, busStack, registerBotProps)
     }
-}
 
-const rstreamsConfigEnvironments = (rstreamsBus: string) => {
-    return {
-        region: `${rstreamsBus}-Region`,
-        kinesis: `${rstreamsBus}-LeoKinesisStream`,
-        s3: `${rstreamsBus}-LeoS3`,
-        firehose: `${rstreamsBus}-LeoFirehoseStream`,
-        resources: {
-            LeoStream: `${rstreamsBus}-LeoStream`,
-            LeoCron: `${rstreamsBus}-LeoCron`,
-            LeoEvent: `${rstreamsBus}-LeoEvent`,
-            LeoSettings: `${rstreamsBus}-LeoSettings`,
-            LeoSystem: `${rstreamsBus}-LeoSystem`,
-            LeoS3: `${rstreamsBus}-LeoS3`,
-            LeoKinesisStream: `${rstreamsBus}-LeoKinesisStream`,
-            LeoFirehoseStream: `${rstreamsBus}-LeoFirehoseStream`,
-            Region: `${rstreamsBus}-Region`,
+    private getEnvironmentVariables = (busStack: string) => {
+        return {
+            region: Fn.importValue(`${busStack}-Region`),
+            kinesis: Fn.importValue(`${busStack}-LeoKinesisStream`),
+            s3: Fn.importValue(`${busStack}-LeoS3`),
+            firehose: Fn.importValue(`${busStack}-LeoFirehoseStream`),
+            resources: {
+                LeoStream: Fn.importValue(`${busStack}-LeoStream`),
+                LeoCron: Fn.importValue(`${busStack}-LeoCron`),
+                LeoEvent: Fn.importValue(`${busStack}-LeoEvent`),
+                LeoSettings: Fn.importValue(`${busStack}-LeoSettings`),
+                LeoSystem: Fn.importValue(`${busStack}-LeoSystem`),
+                LeoS3: Fn.importValue(`${busStack}-LeoS3`),
+                LeoKinesisStream: Fn.importValue(`${busStack}-LeoKinesisStream`),
+                LeoFirehoseStream: Fn.importValue(`${busStack}-LeoFirehoseStream`),
+                Region: Fn.importValue(`${busStack}-Region`),
+            }
         }
+    }
+
+    private registerBots = (scope: IConstruct, busStack: string, bots: RegisterBotProps[]) => {
+        let formattedProperties: { [key: string]: RegisterBotProps } = {};
+        for (let i = 0; i < bots.length; i++) {
+            if (formattedProperties[bots[i].name]) {
+                throw new Error(`Bot names must be unique. ${[bots[i].name]} has already been added to the cloudformation.`)
+            }
+            formattedProperties[bots[i].name] = bots[i];
+        }
+
+        new CustomResource(scope, `${busStack}Register`, {
+            serviceToken: Fn.importValue(`${busStack}-Register`),
+            properties: formattedProperties
+        });
     }
 }

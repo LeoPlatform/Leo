@@ -1,5 +1,5 @@
-import { DockerImageCode, DockerImageFunctionProps, FunctionOptions, FunctionProps, Runtime } from "aws-cdk-lib/aws-lambda";
-import { NodejsFunctionProps } from "aws-cdk-lib/aws-lambda-nodejs";
+import { DockerImageCode, DockerImageFunction, DockerImageFunctionProps, FunctionOptions, FunctionProps, Runtime } from "aws-cdk-lib/aws-lambda";
+import { NodejsFunction, NodejsFunctionProps } from "aws-cdk-lib/aws-lambda-nodejs";
 
 
 /**
@@ -103,12 +103,18 @@ export interface BotProps {
     time?: string,
 }
 
-
-export interface NodeBotProps {
+export interface LambdaBotProps {
     /**
-     * 
+     * List of bot configs to be registered into a bus
      */
     botProps: BotProps[];
-    bus: string;
+    /**
+     * SSM identifier of the bus to register to 
+     */
+    busSsmId: string;
 }
 
+export interface Bot {
+    function: NodejsFunction | DockerImageFunction;
+    registerBotProps: RegisterBotProps;
+}
