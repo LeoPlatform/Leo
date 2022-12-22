@@ -4,6 +4,10 @@ on:
   release:
     types: [published]
 
+defaults:
+  run:
+    working-directory: cdk-lib
+
 jobs:
   build-and-package:
     runs-on: ubuntu-latest
