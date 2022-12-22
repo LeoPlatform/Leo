@@ -58,7 +58,7 @@ export interface BaseParameters {
   readonly BusUiCustomJS?: string;
 
   /**
-   * AWS policy ARN to add to LeoCronRole.  Usefule for adding cross account invocations
+   * AWS policy ARN to add to LeoCronRole.  Useful for adding cross account invocations
    * @default ""
    */
   readonly LambdaInvokePolicy?: string;
