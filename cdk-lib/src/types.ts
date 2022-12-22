@@ -117,10 +117,13 @@ export interface LeoParameterGroups {
   readonly leoSettingsProps: LeoSettingsProps;
 
   /**
-   * 
+   * Leo cron props
    */
   readonly leoCronProps: LeoCronProps;
 
+  /**
+   * Leo system props
+   */
   readonly leoSystemProps: LeoSystemProps;
 }
 
