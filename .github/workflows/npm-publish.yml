@@ -1,0 +1,40 @@
+name: Publish CDK Lib
+
+on: 
+  release:
+    types: [published]
+
+defaults:
+  run:
+    working-directory: cdk-lib
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Node 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: 'npm'
+
+    - name: Version
+      run: npm version ${{ github.event.release.tag_name }} --commit-hooks=false --git-tag-version=false
+
+    - name: NPM Install
+      run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{  secrets.SA_READ_PAT }}
+
+    - name: Build - Generates tsconfig.json
+      run: npm run build
+
+    - name: Package
+      run: npm run package
+
+    - name: Publish NPM lib
+      run: npm run publish
+      env: 
+        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

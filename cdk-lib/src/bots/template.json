@@ -1,0 +1,437 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "The AWS CloudFormation template for this Serverless application",
+    "Resources": {
+        "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketEncryption": {
+                    "ServerSideEncryptionConfiguration": [
+                        {
+                            "ServerSideEncryptionByDefault": {
+                                "SSEAlgorithm": "AES256"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "ServerlessDeploymentBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket": {
+                    "Ref": "ServerlessDeploymentBucket"
+                },
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": "s3:*",
+                            "Effect": "Deny",
+                            "Principal": "*",
+                            "Resource": [
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:",
+                                            {
+                                                "Ref": "AWS::Partition"
+                                            },
+                                            ":s3:::",
+                                            {
+                                                "Ref": "ServerlessDeploymentBucket"
+                                            },
+                                            "/*"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:",
+                                            {
+                                                "Ref": "AWS::Partition"
+                                            },
+                                            ":s3:::",
+                                            {
+                                                "Ref": "ServerlessDeploymentBucket"
+                                            }
+                                        ]
+                                    ]
+                                }
+                            ],
+                            "Condition": {
+                                "Bool": {
+                                    "aws:SecureTransport": false
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "WeatherDashloaderLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+                "LogGroupName": "/aws/lambda/my-weather-weather-loader"
+            }
+        },
+        "WeatherDashprocessorLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+                "LogGroupName": "/aws/lambda/my-weather-weather-processor"
+            }
+        },
+        "EnterpriseLogAccessIamRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": "arn:aws:iam::802587217904:root"
+                            },
+                            "Action": "sts:AssumeRole",
+                            "Condition": {
+                                "StringEquals": {
+                                    "sts:ExternalId": "ServerlessEnterprise-ee1f4168-daf2-428a-8801-c7f9de7694f0"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "Policies": [
+                    {
+                        "PolicyName": "LogFilterAccess",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "logs:FilterLogEvents"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::GetAtt": [
+                                                "WeatherDashloaderLogGroup",
+                                                "Arn"
+                                            ]
+                                        },
+                                        {
+                                            "Fn::GetAtt": [
+                                                "WeatherDashprocessorLogGroup",
+                                                "Arn"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "WeatherDashloaderLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "S3Key": "serverless/my-weather/dev/1671030005265-2022-12-14T15:00:05.265Z/weather-loader.zip"
+                },
+                "Handler": "s_weather_loader.handler",
+                "Runtime": "nodejs14.x",
+                "FunctionName": "my-weather-weather-loader",
+                "MemorySize": 256,
+                "Timeout": 300,
+                "Description": "Bot generated by serverless-leo",
+                "Environment": {
+                    "Variables": {
+                        "RSF_CONFIG": {
+                            "Fn::Sub": [
+                                "{}",
+                                {}
+                            ]
+                        },
+                        "RSTREAMS_CONFIG": {
+                            "Fn::Sub": [
+                                "{\"region\":\"${Region}\",\"kinesis\":\"${LeoKinesisStream}\",\"s3\":\"${LeoS3}\",\"firehose\":\"${LeoFirehoseStream}\",\"resources\":{\"LeoStream\":\"${LeoStream}\",\"LeoCron\":\"${LeoCron}\",\"LeoEvent\":\"${LeoEvent}\",\"LeoSettings\":\"${LeoSettings}\",\"LeoSystem\":\"${LeoSystem}\",\"LeoS3\":\"${LeoS3}\",\"LeoKinesisStream\":\"${LeoKinesisStream}\",\"LeoFirehoseStream\":\"${LeoFirehoseStream}\",\"Region\":\"${Region}\"}}",
+                                {
+                                    "LeoStream": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoStream"
+                                        }
+                                    },
+                                    "LeoCron": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoCron"
+                                        }
+                                    },
+                                    "LeoEvent": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoEvent"
+                                        }
+                                    },
+                                    "LeoSettings": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoSettings"
+                                        }
+                                    },
+                                    "LeoSystem": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoSystem"
+                                        }
+                                    },
+                                    "LeoS3": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoS3"
+                                        }
+                                    },
+                                    "LeoKinesisStream": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoKinesisStream"
+                                        }
+                                    },
+                                    "LeoFirehoseStream": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoFirehoseStream"
+                                        }
+                                    },
+                                    "Region": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-Region"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "Role": {
+                    "Fn::GetAtt": [
+                        "BotRole",
+                        "Arn"
+                    ]
+                }
+            },
+            "DependsOn": [
+                "WeatherDashloaderLogGroup",
+                "BotRole"
+            ]
+        },
+        "WeatherDashprocessorLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "S3Key": "serverless/my-weather/dev/1671030005265-2022-12-14T15:00:05.265Z/weather-processor.zip"
+                },
+                "Handler": "s_weather_processor.handler",
+                "Runtime": "nodejs14.x",
+                "FunctionName": "my-weather-weather-processor",
+                "MemorySize": 256,
+                "Timeout": 300,
+                "Description": "Bot generated by serverless-leo",
+                "Environment": {
+                    "Variables": {
+                        "RSF_CONFIG": {
+                            "Fn::Sub": [
+                                "{}",
+                                {}
+                            ]
+                        },
+                        "RSTREAMS_CONFIG": {
+                            "Fn::Sub": [
+                                "{\"region\":\"${Region}\",\"kinesis\":\"${LeoKinesisStream}\",\"s3\":\"${LeoS3}\",\"firehose\":\"${LeoFirehoseStream}\",\"resources\":{\"LeoStream\":\"${LeoStream}\",\"LeoCron\":\"${LeoCron}\",\"LeoEvent\":\"${LeoEvent}\",\"LeoSettings\":\"${LeoSettings}\",\"LeoSystem\":\"${LeoSystem}\",\"LeoS3\":\"${LeoS3}\",\"LeoKinesisStream\":\"${LeoKinesisStream}\",\"LeoFirehoseStream\":\"${LeoFirehoseStream}\",\"Region\":\"${Region}\"}}",
+                                {
+                                    "LeoStream": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoStream"
+                                        }
+                                    },
+                                    "LeoCron": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoCron"
+                                        }
+                                    },
+                                    "LeoEvent": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoEvent"
+                                        }
+                                    },
+                                    "LeoSettings": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoSettings"
+                                        }
+                                    },
+                                    "LeoSystem": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoSystem"
+                                        }
+                                    },
+                                    "LeoS3": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoS3"
+                                        }
+                                    },
+                                    "LeoKinesisStream": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoKinesisStream"
+                                        }
+                                    },
+                                    "LeoFirehoseStream": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-LeoFirehoseStream"
+                                        }
+                                    },
+                                    "Region": {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${RStreamsBus}-Region"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "Role": {
+                    "Fn::GetAtt": [
+                        "BotRole",
+                        "Arn"
+                    ]
+                }
+            },
+            "DependsOn": [
+                "WeatherDashprocessorLogGroup",
+                "BotRole"
+            ]
+        },
+        "LeoRegister0": {
+            "Type": "Custom::Install",
+            "Properties": {
+                "ServiceToken": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${RStreamsBus}-Register"
+                    }
+                },
+                "my-weather-weather-loader": {
+                    "tags": "app:my-weather",
+                    "id": "my-weather-weather-loader",
+                    "name": "weather-loader",
+                    "time": "0 */1 * * * *",
+                    "type": "cron",
+                    "settings": {
+                        "extra_data": 123,
+                        "botNumber": 0,
+                        "destination": "my-weather.weather"
+                    },
+                    "lambdaName": {
+                        "Ref": "WeatherDashloaderLambdaFunction"
+                    }
+                },
+                "my-weather-weather-processor": {
+                    "tags": "app:my-weather",
+                    "id": "my-weather-weather-processor",
+                    "name": "weather-processor",
+                    "type": "cron",
+                    "settings": {
+                        "botNumber": 0,
+                        "queue": "my-weather.weather",
+                        "source": "my-weather.weather",
+                        "destination": "my-weather.weather-transformed"
+                    },
+                    "lambdaName": {
+                        "Ref": "WeatherDashprocessorLambdaFunction"
+                    }
+                }
+            }
+        },
+        "BotRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "sts:AssumeRole"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": {
+                                    "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:root"
+                                },
+                                "Service": [
+                                    "lambda.amazonaws.com"
+                                ]
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+                    {
+                        "Fn::ImportValue": {
+                            "Fn::Sub": "${RStreamsBus}-Policy"
+                        }
+                    }
+                ]
+            }
+        },
+        "CWLSubFilterWeatherDashloaderLogGroupUsEast1": {
+            "Type": "AWS::Logs::SubscriptionFilter",
+            "Properties": {
+                "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:ee1f4168-daf2-428a-8801-c7f9de7694f0#qd17CvR8Kh2Z8D1FT0#my-weather#dev",
+                "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
+                "LogGroupName": {
+                    "Ref": "WeatherDashloaderLogGroup"
+                }
+            }
+        },
+        "CWLSubFilterWeatherDashprocessorLogGroupUsEast1": {
+            "Type": "AWS::Logs::SubscriptionFilter",
+            "Properties": {
+                "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:ee1f4168-daf2-428a-8801-c7f9de7694f0#qd17CvR8Kh2Z8D1FT0#my-weather#dev",
+                "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
+                "LogGroupName": {
+                    "Ref": "WeatherDashprocessorLogGroup"
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "ServerlessDeploymentBucketName": {
+            "Value": {
+                "Ref": "ServerlessDeploymentBucket"
+            },
+            "Export": {
+                "Name": "sls-my-weather-dev-ServerlessDeploymentBucketName"
+            }
+        },
+        "EnterpriseLogAccessIamRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "EnterpriseLogAccessIamRole",
+                    "Arn"
+                ]
+            },
+            "Export": {
+                "Name": "sls-my-weather-dev-EnterpriseLogAccessIamRole"
+            }
+        }
+    },
+    "Parameters": {
+        "RStreamsBus": {
+            "Type": "AWS::SSM::Parameter::Value<String>",
+            "Description": "Name of the RStreams Bus stack",
+            "MinLength": 1
+        }
+    }
+}
