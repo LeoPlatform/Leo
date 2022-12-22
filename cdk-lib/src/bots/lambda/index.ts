@@ -35,21 +35,17 @@ export class LambdaBot extends Construct {
                     environment
                 });
             }
-            if (bot) {
-                const props = {
-                    settings: botProp.settings,
-                    name: botProp.name,
-                    lambdaName: bot.functionName,
-                    type: BotType.CRON,
-                    id: bot.functionName,
-                    time: botProp.time
-                };
-                registerBotProps.push(props);
-                bot.role?.addManagedPolicy(ManagedPolicy.fromManagedPolicyArn(this, `${props.name}BusPolicy`, Fn.importValue(`${busStack}-Policy`)));
-                this.bots.push({ function: bot, registerBotProps: props })
-            } else {
-                throw new Error(`Unable to register bot ${botProp.name}. The \`code\` property should point to a JS/TS file or contain a docker image.`);
-            }
+            const props = {
+                settings: botProp.settings,
+                name: botProp.name,
+                lambdaName: bot.functionName,
+                type: BotType.CRON,
+                id: bot.functionName,
+                time: botProp.time
+            };
+            registerBotProps.push(props);
+            bot.role?.addManagedPolicy(ManagedPolicy.fromManagedPolicyArn(this, `${props.name}BusPolicy`, Fn.importValue(`${busStack}-Policy`)));
+            this.bots.push({ function: bot, registerBotProps: props })
 
         });
         this.registerBots(this, props.busSsmId, busStack, registerBotProps)
