@@ -192,7 +192,7 @@ export interface LeoArchiveProps {
   /**
    * @default BillingModes.PROVISIONED
    */
-  readonly LeoArchiveBillingMode?: number;
+  readonly LeoArchiveBillingMode?: BillingModes;
   /**
    * @default 5
    */
