@@ -1,2 +1,2 @@
-export * from './node'
+export * from './lambda'
 export * from './types'

@@ -17,6 +17,7 @@ export class LambdaBot extends Construct {
             this, props.busSsmId);
 
         const registerBotProps: RegisterBotProps[] = [];
+        this.bots = [];
 
         props.botProps.forEach((botProp: BotProps) => {
             const environment = {
@@ -35,7 +36,7 @@ export class LambdaBot extends Construct {
                 });
             }
             if (bot) {
-                const botProps = {
+                const props = {
                     settings: botProp.settings,
                     name: botProp.name,
                     lambdaName: bot.functionName,
@@ -43,16 +44,15 @@ export class LambdaBot extends Construct {
                     id: bot.functionName,
                     time: botProp.time
                 };
-                registerBotProps.push(botProps);
-                bot.role?.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("AWSLambdaBasicExecutionRole"));
-                bot.role?.addManagedPolicy(ManagedPolicy.fromManagedPolicyArn(this, "BusPolicy", Fn.importValue(`${busStack}-Policy`)));
-                this.bots.push({ function: bot, registerBotProps: botProps })
+                registerBotProps.push(props);
+                bot.role?.addManagedPolicy(ManagedPolicy.fromManagedPolicyArn(this, `${props.name}BusPolicy`, Fn.importValue(`${busStack}-Policy`)));
+                this.bots.push({ function: bot, registerBotProps: props })
             } else {
                 throw new Error(`Unable to register bot ${botProp.name}. The \`code\` property should point to a JS/TS file or contain a docker image.`);
             }
 
         });
-        this.registerBots(this, busStack, registerBotProps)
+        this.registerBots(this, props.busSsmId, busStack, registerBotProps)
     }
 
     private getEnvironmentVariables = (busStack: string) => {
@@ -75,7 +75,7 @@ export class LambdaBot extends Construct {
         }
     }
 
-    private registerBots = (scope: IConstruct, busStack: string, bots: RegisterBotProps[]) => {
+    private registerBots = (scope: IConstruct, bustName: string, busStack: string, bots: RegisterBotProps[]) => {
         let formattedProperties: { [key: string]: RegisterBotProps } = {};
         for (let i = 0; i < bots.length; i++) {
             if (formattedProperties[bots[i].name]) {
@@ -84,7 +84,7 @@ export class LambdaBot extends Construct {
             formattedProperties[bots[i].name] = bots[i];
         }
 
-        new CustomResource(scope, `${busStack}Register`, {
+        new CustomResource(scope, `${bustName}Register`, {
             serviceToken: Fn.importValue(`${busStack}-Register`),
             properties: formattedProperties
         });
