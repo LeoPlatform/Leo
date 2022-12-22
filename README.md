@@ -17,8 +17,7 @@ In the following steps, make sure you have selected either “US West (Oregon)�
 1. Make sure your selected region is one of: US West (Oregon) or US East (N. Virginia).
 1. Go to CloudFormation
 1. Click “Create Stack”
-1. Paste this cloudformation link (`https://leo-cli-publishbucket-abb4i613j9y9.s3.amazonaws.com/leo/2.0.0/cloudformation-1652216325999.json`)
-   `) into the “Specify an Amazon S3 template URL” field and click “Next”.
+1. Paste this cloudformation link (`https://leo-cli-publishbucket-abb4i613j9y9.s3.amazonaws.com/leo/2.0.0/cloudformation-1652216325999.json`) into the “Specify an Amazon S3 template URL” field and click “Next”.
 1. Specify a stack name (e.g. LeoPlatformDev, LeoPlatformStage) in the “Stack name” input field.
 1. Leave the Identity Pool ID blank. (In the future, we will support using an existing cognito pool. If you use an existing one here, you will have to manually setup auth roles).
 1. Fill out the `Logins`
