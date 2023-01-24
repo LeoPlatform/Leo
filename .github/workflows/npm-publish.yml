@@ -31,9 +31,6 @@ jobs:
     - name: Build - Generates tsconfig.json
       run: npm run build
 
-    - name: Package
-      run: npm run package
-
     - name: Publish NPM lib
       run: npm run publish
       env: 
