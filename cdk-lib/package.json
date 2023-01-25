@@ -1,9 +1,10 @@
 {
-  "name": "leo-cdk-lib",
+  "name": "@leoplatform/leo-cdk-lib",
   "version": "0.1.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "publish": "npm publish --access restricted",
     "build": "rm -rf lib/ && tsc && cp ../cloudformation.json ./lib/platform",
     "watch": "tsc -w",
     "test": "jest",
