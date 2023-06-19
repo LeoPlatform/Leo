@@ -16,7 +16,7 @@
     "@types/random-string": "^0.0.28",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
-    "aws-cdk-lib": "^2.55.1",
+    "aws-cdk-lib": "^2.80.0",
     "constructs": "^10.1.191",
     "eslint": "^8.29.0",
     "jest": "^27.5.1",
