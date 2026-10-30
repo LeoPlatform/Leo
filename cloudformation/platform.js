@@ -3,16 +3,16 @@ module.exports = {
 		RegionMap: {
 			'us-west-2': {
 				S3Bucket: 'leo-cli-publishbucket-mzhr7agmqo7u',
-				AuthTemplateUrl: 'https://leo-cli-publishbucket-mzhr7agmqo7u.s3-us-west-2.amazonaws.com/auth/release/cloudformation-latest.json',
-				BusTemplateUrl: 'https://leo-cli-publishbucket-mzhr7agmqo7u.s3-us-west-2.amazonaws.com/leo-bus/3.3.1/cloudformation-1688762455757.json',
-				BotmonTemplateUrl: 'https://leo-cli-publishbucket-mzhr7agmqo7u.s3-us-west-2.amazonaws.com/botmon/3.0.4/cloudformation-1701192280418.json',
+				AuthTemplateUrl: 'https://leo-cli-publishbucket-mzhr7agmqo7u.s3-us-west-2.amazonaws.com/auth/awsv3node26/2.0.0/cloudformation-1793396729205.json',
+				BusTemplateUrl: 'https://leo-cli-publishbucket-mzhr7agmqo7u.s3-us-west-2.amazonaws.com/leo-bus/awsv3node26/4.0.0/cloudformation-1793389069975.json',
+				BotmonTemplateUrl: 'https://leo-cli-publishbucket-mzhr7agmqo7u.s3-us-west-2.amazonaws.com/botmon/awsv3node26/4.0.0/cloudformation-1793396776258.json',
 				CognitoTemplateUrl: 'https://leo-cli-publishbucket-mzhr7agmqo7u.s3-us-west-2.amazonaws.com/leo-Cognito/cloudformation-latest.json'
 			},
 			'us-east-1': {
 				S3Bucket: 'leo-cli-publishbucket-abb4i613j9y9',
-				AuthTemplateUrl: 'https://leo-cli-publishbucket-abb4i613j9y9.s3.amazonaws.com/auth/release/cloudformation-latest.json',
-				BusTemplateUrl: 'https://leo-cli-publishbucket-abb4i613j9y9.s3.amazonaws.com/leo-bus/3.3.1/cloudformation-1688762455757.json',
-				BotmonTemplateUrl: 'https://leo-cli-publishbucket-abb4i613j9y9.s3.amazonaws.com/botmon/3.0.4/cloudformation-1701192280418.json',
+				AuthTemplateUrl: 'https://leo-cli-publishbucket-abb4i613j9y9.s3.amazonaws.com/auth/awsv3node26/2.0.0/cloudformation-1793396729205.json',
+				BusTemplateUrl: 'https://leo-cli-publishbucket-abb4i613j9y9.s3.amazonaws.com/leo-bus/awsv3node26/4.0.0/cloudformation-1793389069975.json',
+				BotmonTemplateUrl: 'https://leo-cli-publishbucket-abb4i613j9y9.s3.amazonaws.com/botmon/awsv3node26/4.0.0/cloudformation-1793396776258.json',
 				CognitoTemplateUrl: 'https://leo-cli-publishbucket-abb4i613j9y9.s3.amazonaws.com/leo-Cognito/cloudformation-latest.json'
 			}
 		}
